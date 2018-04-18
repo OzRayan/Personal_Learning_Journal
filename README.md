@@ -1,2 +1,2 @@
-# Personal_Learning_journal
-Final
+eamil: example@mail.com
+password: testpassword
