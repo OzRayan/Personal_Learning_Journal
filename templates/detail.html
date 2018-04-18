@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+{% from 'macros.html' import render_field %}
+
+{% block header %}
+    <div  style="width:32.5%;display:inline-block; text-align: center;" class="site-header">
+        <h1>{% if current_user.is_authenticated and current_user.id == entry.user.id %}{{ current_user.username }}{% endif %}</h1>
+    </div>   
+{% endblock %}
+{% block content %}
+<article>
+    <h1>{{ entry.title }}</h1>
+    <time datetime="{{ entry.created_at.strftime('%Y-%m-%d') }}">{{ entry.created_at.strftime("%B %d, %Y") }}     </time>
+    <div class="entry">
+        <h3>Time Spent: </h3>
+        <p>{{ entry.duration }}</p>
+    </div>
+    <div class="entry">
+        <h3>What I Learned:</h3>
+        {% for line in entry.content.split('\n') %}
+            <p>{{ line }}</p>
+        {% endfor %}
+    </div>
+    <div class="entry">
+        <h3>Resources to Remember:</h3>
+        <ul>
+            {% for line in entry.resources.split('\n') %}
+            <li>{{ line|urlize(40) }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if entry_tags %}
+    <div class="entry">
+        <h3>Tags:</h3>
+        <ul>
+            {% for tag in entry_tags %}
+            <li><a href="{{ url_for('entries_tag', tag_id=tag.id) }}">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</article>
+{% if current_user.is_authenticated and current_user.id == entry.user.id %}
+<div class="edit">
+    <p><a class="button" href="{{ url_for('apply_tag', slug=entry.slug) }}">Apply Tag</a></p>
+    <p><a class="button" href="{{ url_for('remove_tag', slug=entry.slug) }}">Remove Tag</a></p>
+    <p><a class="button" href="{{ url_for('edit_entry', slug=entry.slug) }}">Edit Entry</a></p>
+    <p><a class="button" href="{{ url_for('remove_entry', slug=entry.slug) }}">Delete Entry</a></p>
+</div>
+{% endif %}
+{% endblock %}

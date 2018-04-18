@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block header %}
+    <div  style="width:32.5%;display:inline-block; text-align: center;" class="site-header">
+        <h1>Hello{% if current_user.is_authenticated() %} {{ current_user.username }}{% endif %}!</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="entry-list">
+        {% for entry in entries %}
+            <article>
+                <h2><a href="{{ url_for('view_entry', slug=entry.slug)}}">{{ entry.title }}</a></h2>
+                <time datetime="{{ entry.created_at.strftime('%Y-%m-%d') }}">{{ entry.created_at.strftime("%B %d, %Y") }}</time>
+                <br>
+                <span>By: <p>{{ entry.user.username }}</p>
+                </span>
+                {% if entry.get_tags().count() > 0 %}
+                    <ul>
+                        {% for tag in entry.get_tags() %}
+                        <li style="display:inline;"><a href="{{ url_for('entries_tag', tag_id=tag.id) }}">{{ tag.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+    {% if view_all %}
+        <div class="edit">
+            <p><a class="button" href="{{ url_for('entry_list') }}">View All</a></p>
+        </div>
+    {% endif %}
+{% endblock %}

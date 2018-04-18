@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% from "macros.html" import render_field %}
+
+{% block content %}
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+        {{ render_field(field) }}
+    {% endfor %}
+    <button class="button icon-right" type="submit" id="submit">Save Entry</button>
+    <a class="button icon-right" href="{{ url_for('entry_list') }}">Cancel</a>
+</form>
+{% endblock %}
