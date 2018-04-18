@@ -1,2 +1,2 @@
-eamil: example@mail.com
+email: example@mail.com
 password: testpassword
