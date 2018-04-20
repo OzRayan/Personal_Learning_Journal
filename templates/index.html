@@ -17,7 +17,7 @@
                 {% if entry.get_tags().count() > 0 %}
                     <ul>
                         {% for tag in entry.get_tags() %}
-                        <li style="display:inline;"><a href="{{ url_for('entries_tag', tag_id=tag.id) }}">{{ tag.name }}</a></li>
+                        <li style="display:inline;"><a href="{{ url_for('entries_tag', tagid=tag.id) }}">{{ tag.name }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endif %}
