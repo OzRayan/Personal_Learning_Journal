@@ -103,7 +103,7 @@ def entry_list():
     return render_template('index.html', entries=entries)
 
 
-@app.route('/entries/<slug>/')
+@app.route('/entries/<slug>')
 def view_entry(slug):
     """Entry(post) detail view.
     DECORATION:
@@ -145,7 +145,7 @@ def user_entries(username):
                               .where(models.User.username == username)
                               .get()
                               .entries
-                              .order_by(models.Entry.created_at.desc()))
+                             .order_by(models.Entry.created_at.desc()))
     except models.DoesNotExist:
         abort(404)
     return render_template('index.html',
@@ -154,7 +154,7 @@ def user_entries(username):
                            view_all=True)
 
 
-@app.route('/entries/tag/<tag_id>/')
+@app.route('/entries/tag/<tagid>')
 def entries_tag(tagid):
     """Entries(posts) tag view.
     DECORATION:
@@ -206,7 +206,7 @@ def entry():
     return render_template('new.html', form=form)
 
 
-@app.route('/entries/<slug>/edit/', methods=('GET', 'POST'))
+@app.route('/entries/edit/<slug>', methods=('GET', 'POST'))
 @login_required
 def edit_entry(slug):
     """Entry(post) view.
@@ -239,7 +239,7 @@ def edit_entry(slug):
     return render_template('new.html', form=form)
 
 
-@app.route('/tags/create/', methods=('GET', 'POST'))
+@app.route('/tags/create', methods=('GET', 'POST'))
 @login_required
 def tag():
     """Tag view.
@@ -260,7 +260,7 @@ def tag():
     return render_template('tag.html', form=form)
 
 
-@app.route('/entries/<slug>/tags/', methods=('GET', 'POST'))
+@app.route('/entries/tags/<slug>', methods=('GET', 'POST'))
 @login_required
 def apply_tag(slug):
     """Apply tag view.
@@ -299,7 +299,7 @@ def apply_tag(slug):
     return render_template('apply_tag.html', form=form, tags=tags, slug=slug)
 
 
-@app.route('/entries/<slug>/tags/remove/', methods=('GET', 'POST'))
+@app.route('/entries/<slug>/tags/remove', methods=('GET', 'POST'))
 @login_required
 def remove_tag(slug):
     """Remove tag view.
@@ -336,7 +336,7 @@ def remove_tag(slug):
     return render_template('remove_tag.html', form=form, tags=tags, slug=slug)
 
 
-@app.route('/entries/<slug>/delete/', methods=('GET', 'POST'))
+@app.route('/entries/delete/<slug>', methods=('GET', 'POST'))
 @login_required
 def remove_entry(slug):
     """Remove entry(post) view.
