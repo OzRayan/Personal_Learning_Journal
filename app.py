@@ -436,13 +436,13 @@ def logout():
 
 if __name__ == '__main__':
     models.initialize()
-    try:
-        models.User.create_user(
-            username='test_user',
-            email='example@mail.com',
-            password='testpassword',
-            admin=True
-        )
-    except ValueError:
-        pass
-    app.run(debug=DEBUG)
+#     try:
+#         models.User.create_user(
+#             username='test_user',
+#             email='example@mail.com',
+#             password='testpassword',
+#             admin=True
+#         )
+#     except ValueError:
+#         pass
+    app.run(debug=DEBUG, host=HOST, port=PORT)
