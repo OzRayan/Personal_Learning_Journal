@@ -145,7 +145,7 @@ def user_entries(username):
                               .where(models.User.username == username)
                               .get()
                               .entries
-                             .order_by(models.Entry.created_at.desc()))
+                              .order_by(models.Entry.created_at.desc()))
     except models.DoesNotExist:
         abort(404)
     return render_template('index.html',
@@ -167,9 +167,12 @@ def entries_tag(tagid):
                         template with entries
     """
     try:
+        # noinspection PyUnresolvedReferences
+        # noinspection PyUnusedLocal
         tag_object = models.Tag.get(models.Tag.id == tagid)
     except models.DoesNotExist:
         abort(404)
+    # noinspection PyUnresolvedReferences
     entries = (models.Entry.select()
                            .join(models.EntryTag)
                            .join(models.Tag)
@@ -225,6 +228,7 @@ def edit_entry(slug):
     entry_object = get_object_or_404(slug)
     form = forms.PostEntryForm(obj=entry_object)
     if form.validate_on_submit():
+        # noinspection PyUnresolvedReferences
         query = models.Entry.update(
             user=g.user._get_current_object(),
             title=form.title.data.strip(),
@@ -321,10 +325,12 @@ def remove_tag(slug):
     entry_tags = (models.EntryTag.select()
                                  .where(models.EntryTag.entry == e_id))
     entry_tag_id = [entry_tag.tag.id for entry_tag in entry_tags]
+    # noinspection PyUnresolvedReferences
     tags = models.Tag.select().where(models.Tag.id << entry_tag_id)
     form.tags.choices = [(x.id, x.name) for x in tags]
     if form.validate_on_submit():
         selections = [int(x) for x in request.form.getlist('tags')]
+        # noinspection PyUnresolvedReferences
         tags = models.Tag.select().where(models.Tag.id << selections)
         query = models.EntryTag.delete().where(
             (models.EntryTag.entry == entry_object) &
@@ -439,4 +445,4 @@ if __name__ == '__main__':
         )
     except ValueError:
         pass
-    app.run(debug=DEBUG, host=HOST, port=PORT)
+    app.run(debug=DEBUG)
